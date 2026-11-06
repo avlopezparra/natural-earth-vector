@@ -1,3 +1,5 @@
+CHILE FIXED IN THIS FORK!
+
 Get the full scoop at [NaturalEarthData.com](http://naturalearthdata.com)
 
 _No, really! This readme is a poor substitute for the live site._
