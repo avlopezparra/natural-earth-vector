@@ -402,6 +402,7 @@ build_a5_ne_10m_admin_0_countries_pov: \
 	build_a5_ne_10m_admin_0_countries_arg \
 	build_a5_ne_10m_admin_0_countries_bdg \
 	build_a5_ne_10m_admin_0_countries_bra \
+	build_a5_ne_10m_admin_0_countries_cl \
 	build_a5_ne_10m_admin_0_countries_chn \
 	build_a5_ne_10m_admin_0_countries_deu \
 	build_a5_ne_10m_admin_0_countries_egy \
@@ -783,6 +784,20 @@ build_a5_ne_10m_admin_0_countries_arg: 10m_cultural/ne_10m_admin_0_scale_rank.sh
 		-each 'NAME=BRK_NAME' \
 		-each 'NAME_LONG=BRK_NAME' \
 		-o 10m_cultural/ne_10m_admin_0_countries_arg.shp \
+
+build_a5_ne_10m_admin_0_countries_cl: 10m_cultural/ne_10m_admin_0_scale_rank.shp \
+	housekeeping/ne_admin_0_details_level_5_disputed.dbf
+	mapshaper -i 10m_cultural/ne_10m_admin_0_scale_rank.shp \
+		-join housekeeping/ne_admin_0_details_level_5_disputed.dbf encoding=utf8 keys=sr_brk_a3,BRK_A3 fields=ADM0_A3_CL \
+		-dissolve 'ADM0_A3_CL' calc='featurecla="Admin-0 country", scalerank = min(scalerank)' \
+		-filter 'scalerank !== null' + \
+		-filter 'scalerank <= 6' + \
+		-join housekeeping/ne_admin_0_details_level_2_countries.dbf encoding=utf8 keys=ADM0_A3_CL,ADM0_A3 fields=* \
+		-filter 'ADM0_A3 !== null' + \
+		-each 'delete sr_adm0_a3' \
+		-each 'NAME=BRK_NAME' \
+		-each 'NAME_LONG=BRK_NAME' \
+		-o 10m_cultural/ne_10m_admin_0_countries_cl.shp \
 
 build_a5_ne_10m_admin_0_countries_jpn: 10m_cultural/ne_10m_admin_0_scale_rank.shp \
 	housekeeping/ne_admin_0_details_level_5_disputed.dbf
